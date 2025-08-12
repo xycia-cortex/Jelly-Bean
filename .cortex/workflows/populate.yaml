@@ -1,0 +1,46 @@
+name: Populate Input Field
+tag: workflow-b7025c4a-c976-4303-bd71-d7e3bfac9b67
+description: null
+isDraft: true
+filter:
+  type: GLOBAL
+runResponseTemplate: null
+failedRunResponseTemplate: null
+restrictActionCompletionToRunnerUser: false
+actions:
+- name: HTTP request
+  slug: http-request
+  schema:
+    headers:
+      Content-Type: application/json
+    httpMethod: GET
+    payload: null
+    url: https://xyciacortex.free.beeceptor.com/list
+    type: HTTP_REQUEST
+  outgoingActions:
+  - user-input
+  isRootAction: true
+- name: User input
+  slug: user-input
+  schema:
+    inputs:
+    - name: Which is your favorite Animal?
+      description: null
+      key: favorite-animal
+      required: true
+      options: []
+      optionsLabels: null
+      defaultValue: null
+      placeholder: null
+      allowAdditionalOptions: false
+      type: SELECT_FIELD
+    inputOverrides:
+    - inputKey: favorite-animal
+      outputVariable: actions.http-request.outputs.body.animals
+      type: OPTION
+    type: USER_INPUT
+  outgoingActions: []
+  isRootAction: false
+runRestrictionPolicies: []
+iconTag: null
+variables: []
