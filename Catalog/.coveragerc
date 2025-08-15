@@ -1,0 +1,6 @@
+[run]
+source = my-new-scaffolder-test
+omit = 
+    tests/*
+    autoapp.py
+
