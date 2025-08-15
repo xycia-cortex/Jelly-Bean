@@ -1,12 +1,11 @@
 openapi: 3.0.1
 info:
-  title: my-new-scaffolder-test
-  description: my-new-scaffolder-test
-  x-cortex-tag: my-new-scaffolder-test
+  title: test-bed
+  x-cortex-tag: test-bed
   x-cortex-git:
     github:
       repository: xycia-cortex/Jelly-Bean
       basepath: Catalog
   x-cortex-custom-metadata:
-    cortex-template-version: ""
-    cortex-generated-timestamp: 2025-08-15T18:08:08.603998354
+    cortex-template-version: 0.1.2
+    cortex-generated-timestamp: 2025-08-15T19:58:37.587825562
