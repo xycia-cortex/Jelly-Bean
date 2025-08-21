@@ -97,7 +97,7 @@ actions:
       description: null
       key: branch-prefix
       required: false
-      defaultValue: POC/create-argocd-app
+      defaultValue: xycia-cortex/create-argocd-app
       placeholder: branch-prefix
       validationRegex: null
       type: INPUT_FIELD
