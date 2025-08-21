@@ -125,22 +125,22 @@ actions:
   schema:
     expression: |-
       {
-  "application": .actions."user-input".outputs."argocd-application-name",
-  "deployment-name": .actions."user-input".outputs."deployment-name",
-  "env": .actions."user-input".outputs."env",
-  "team": .actions."user-input".outputs."team",
-  "project": .actions."user-input".outputs."project",
-  "database": .actions."user-input".outputs."database",
-  "instance": .actions."user-input".outputs."instance",
-  "gke": .actions."user-input".outputs."gke",
-  "branch_prefix": .actions."user-input".outputs."branch-prefix",
-  "extra": (
-    {
-      "debug": .actions."user-input".outputs."debug",
-      "deployment-type": .actions."user-input".outputs."deployment-type"
-    } | tojson
-  )
-} | tojson
+        "application": .actions."user-input".outputs."argocd-application-name",
+        "deployment-name": .actions."user-input".outputs."deployment-name",
+        "env": .actions."user-input".outputs."env",
+        "team": .actions."user-input".outputs."team",
+        "project": .actions."user-input".outputs."project",
+        "database": .actions."user-input".outputs."database",
+        "instance": .actions."user-input".outputs."instance",
+        "gke": .actions."user-input".outputs."gke",
+        "branch_prefix": .actions."user-input".outputs."branch-prefix",
+        "extra": (
+          {
+            "debug": .actions."user-input".outputs."debug",
+            "deployment-type": .actions."user-input".outputs."deployment-type"
+          } | tojson
+        )
+      } | tojson
     type: JQ
   outgoingActions:
   - new-argocd-app
