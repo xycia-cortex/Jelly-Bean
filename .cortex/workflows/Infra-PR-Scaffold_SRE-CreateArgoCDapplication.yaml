@@ -1,7 +1,7 @@
 name: "Tavo Infra-PR-Scaffold: SRE - Create ArgoCD application"
 tag: tavo-infra-pr-scaffold-sre
 description: PR Scaffold ArgoCD application
-isDraft: true
+isDraft: false
 filter:
   type: GLOBAL
 runResponseTemplate: null
