@@ -149,7 +149,7 @@ actions:
       repo: dave-inc/cortex-idp-actions
       inputs: "{{{ actions.input-data-transformation.outputs.result }}}"
       workflow_id: new-argocd-app.yml
-    integrationAlias: davecortexwriteactions
+    integrationAlias: github_token
     actionIdentifier: github.createWorkflowDispatchEvent
     type: ADVANCED_HTTP_REQUEST
   outgoingActions:
