@@ -146,7 +146,7 @@ actions:
   schema:
     inputs:
       ref: SRE-5983
-      repo: dave-inc/cortex-idp-actions
+      repo: xycia-cortex/cortex-idp-actions
       inputs: "{{{ actions.input-data-transformation.outputs.result }}}"
       workflow_id: new-argocd-app.yml
     integrationAlias: github_token
