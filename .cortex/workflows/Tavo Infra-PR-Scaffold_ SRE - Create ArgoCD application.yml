@@ -1,0 +1,168 @@
+name: "Tavo Infra-PR-Scaffold: SRE - Create ArgoCD application"
+tag: tavo-infra-pr-scaffold-sre
+description: PR Scaffold ArgoCD application
+isDraft: true
+filter:
+  type: GLOBAL
+runResponseTemplate: null
+failedRunResponseTemplate: null
+restrictActionCompletionToRunnerUser: false
+actions:
+- name: User input
+  slug: user-input
+  schema:
+    inputs:
+    - name: ArgoCD application name
+      description: "Name of application. An application can have many services that\
+        \ belong to it, e.g. bank-data-production"
+      key: argocd-application-name
+      required: false
+      defaultValue: side-hustle-cortex
+      placeholder: application_name
+      validationRegex: null
+      type: INPUT_FIELD
+    - name: Deployment Name
+      description: "Name of the api, service, consumer, task-handler, outbox, \ne.g.\
+        \ bank-data-graph-api"
+      key: deployment-name
+      required: false
+      defaultValue: side-hustle-consumer
+      placeholder: name
+      validationRegex: null
+      type: INPUT_FIELD
+    - name: Environment
+      description: "Environment (e.g. development, staging, production)"
+      key: env
+      required: false
+      defaultValue: staging
+      placeholder: env
+      validationRegex: null
+      type: INPUT_FIELD
+    - name: Team
+      description: Team name e.g. risk
+      key: team
+      required: false
+      defaultValue: squad-2
+      placeholder: team
+      validationRegex: null
+      type: INPUT_FIELD
+    - name: Service features
+      description: "Features to setup. \n*Currently infra-pr-scaffolder is not using\
+        \ this field"
+      key: service-features
+      required: false
+      options:
+      - GraphQL
+      - CloudSQL
+      - Cloud MemoryStore
+      - Spanner
+      optionsLabels: null
+      defaultValue: CloudSQL
+      placeholder: service_features
+      allowAdditionalOptions: false
+      type: SELECT_FIELD
+    - name: Project
+      description: GCP project e.g. bank-data-386e
+      key: project
+      required: false
+      defaultValue: project-123
+      placeholder: project
+      validationRegex: null
+      type: INPUT_FIELD
+    - name: Database
+      description: Database name e.g. identity
+      key: database
+      required: false
+      defaultValue: dbname
+      placeholder: database
+      validationRegex: null
+      type: INPUT_FIELD
+    - name: DBInstance
+      description: CloudSQL instance e.g. overdraft-1
+      key: instance
+      required: false
+      defaultValue: cloudsql-1
+      placeholder: instance
+      validationRegex: null
+      type: INPUT_FIELD
+    - name: GKE cluster
+      description: GKE cluster name e.g. bank-data-1
+      key: gke
+      required: false
+      defaultValue: gke-cluster-3
+      placeholder: gke
+      validationRegex: null
+      type: INPUT_FIELD
+    - name: Branch prefix
+      description: null
+      key: branch-prefix
+      required: false
+      defaultValue: POC/create-argocd-app
+      placeholder: branch-prefix
+      validationRegex: null
+      type: INPUT_FIELD
+    - name: debug
+      description: Debug mode
+      key: debug
+      required: false
+      defaultValue: false
+      type: TOGGLE_FIELD
+    - name: Deployment Type
+      description: "Type of deployment  e.g. (api, consumer, outbox)"
+      key: deployment-type
+      required: false
+      defaultValue: api
+      placeholder: deployment_type
+      validationRegex: null
+      type: INPUT_FIELD
+    inputOverrides: []
+    type: USER_INPUT
+  outgoingActions:
+  - input-data-transformation
+  isRootAction: true
+- name: Input Data transformation
+  slug: input-data-transformation
+  schema:
+    expression: |-
+      {
+        "application": .actions."user-input".outputs."argocd-application-name",
+        "deployment-name": .actions."user-input".outputs."deployment-name",
+        "env": .actions."user-input".outputs."env",
+        "team": .actions."user-input".outputs."team",
+        "project": .actions."user-input".outputs."project",
+        "database": .actions."user-input".outputs."database",
+        "instance": .actions."user-input".outputs."instance",
+        "gke": .actions."user-input".outputs."gke",
+        "branch_prefix": .actions."user-input".outputs."branch-prefix",
+        "debug": .actions."user-input".outputs."debug",
+        "deployment-type": .actions."user-input".outputs."deployment-type"
+      } | tojson
+    type: JQ
+  outgoingActions:
+  - new-argocd-app
+  isRootAction: false
+- name: New ArgoCD App
+  slug: new-argocd-app
+  schema:
+    inputs:
+      ref: SRE-5983
+      repo: dave-inc/cortex-idp-actions
+      inputs: "{{{ actions.input-data-transformation.outputs.result }}}"
+      workflow_id: new-argocd-app.yml
+    integrationAlias: davecortexwriteactions
+    actionIdentifier: github.createWorkflowDispatchEvent
+    type: ADVANCED_HTTP_REQUEST
+  outgoingActions:
+  - send-message
+  isRootAction: false
+- name: Send message
+  slug: send-message
+  schema:
+    channel: alerts-temp
+    message: ArgoCD application created successfully!
+    type: SLACK
+  outgoingActions: []
+  isRootAction: false
+runRestrictionPolicies: []
+iconTag: null
+variables: []
